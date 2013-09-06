@@ -62,17 +62,18 @@ import org.lsc.configuration.TaskType;
 import org.lsc.exception.LscServiceCommunicationException;
 import org.lsc.exception.LscServiceConfigurationException;
 import org.lsc.exception.LscServiceException;
-import org.lsc.plugins.connectors.obm.beans.User;
+import org.lsc.plugins.connectors.obm.beans.Group;
 import org.lsc.plugins.connectors.obm.beans.ListItem;
+import org.lsc.plugins.connectors.obm.beans.User;
+import org.lsc.plugins.connectors.obm.generated.ObmGroupService;
 import org.lsc.plugins.connectors.obm.generated.ObmService;
-import org.lsc.plugins.connectors.obm.generated.ObmUserService;
 import org.lsc.service.IWritableService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ObmUserDstService implements IWritableService {
+public class ObmGroupDstService implements IWritableService {
 	
-	protected static final Logger LOGGER = LoggerFactory.getLogger(ObmUserDstService.class);
+	protected static final Logger LOGGER = LoggerFactory.getLogger(ObmGroupDstService.class);
 	/**
 	 * Preceding the object feeding, it will be instantiated from this class.
 	 */
@@ -89,9 +90,9 @@ public class ObmUserDstService implements IWritableService {
 	 * @throws LscServiceConfigurationException never thrown
 	 */
 	@SuppressWarnings("unchecked")
-	public ObmUserDstService(final TaskType task) throws LscServiceConfigurationException, LscServiceCommunicationException {
+	public ObmGroupDstService(final TaskType task) throws LscServiceConfigurationException, LscServiceCommunicationException {
 		try {
-	        if (task.getPluginDestinationService().getAny() == null || task.getPluginDestinationService().getAny().size() != 1 || !((task.getPluginDestinationService().getAny().get(0) instanceof ObmUserService))) {
+	        if (task.getPluginDestinationService().getAny() == null || task.getPluginDestinationService().getAny().size() != 1 || !((task.getPluginDestinationService().getAny().get(0) instanceof ObmGroupService))) {
 	            throw new LscServiceConfigurationException("Unable to identify the obm service configuration " + "inside the plugin source node of the task: " + task.getName());
 	        }
 	        
@@ -132,8 +133,8 @@ public class ObmUserDstService implements IWritableService {
 			return null;
 		}
 		try {
-			User user = obmDao.getUser(id);
-			return userToBean(user);
+			Group group = obmDao.getGroup(id);
+			return groupToBean(group);
 		} catch (ProcessingException e) {
 			LOGGER.error(String.format("ProcessingException while getting bean %s/%s (%s)",
 					pivotName, id, e));
@@ -158,10 +159,10 @@ public class ObmUserDstService implements IWritableService {
 		}
 	}
 
-	private IBean userToBean(User user) throws InstantiationException, IllegalAccessException {
+	private IBean groupToBean(Group group) throws InstantiationException, IllegalAccessException {
 		IBean bean = beanClass.newInstance();
-		bean.setMainIdentifier(user.id);
-		bean.setDatasets(user.toDatasets());
+		bean.setMainIdentifier(group.id);
+		bean.setDatasets(group.toDatasets());
 		return bean;
 	}
 	
@@ -170,11 +171,11 @@ public class ObmUserDstService implements IWritableService {
 			throws LscServiceException {
 		
 		try {
-			List<ListItem> userList = obmDao.getUserList();
+			List<ListItem> groupList = obmDao.getGroupList();
 
 			Map<String, LscDatasets> listPivots = new HashMap<String, LscDatasets>();
-			for (ListItem user: userList) {
-				listPivots.put(user.id, user.toDatasets());
+			for (ListItem group: groupList) {
+				listPivots.put(group.id, group.toDatasets());
 			}
 			return listPivots;
 		} catch (ProcessingException e) {
@@ -193,21 +194,21 @@ public class ObmUserDstService implements IWritableService {
 		try {
 			switch(lm.getOperation()) {
 				case CHANGE_ID:
-					LOGGER.warn("Trying to change ID of an OBM user, impossible operation, ignored.");
+					LOGGER.warn("Trying to change ID of an OBM group, impossible operation, ignored.");
 					// Silently return without doing anything
 					return true;
 				case CREATE_OBJECT:
-					LOGGER.debug("Creating OBM user: " + lm.getMainIdentifier());
-					return obmDao.createUser(new User(lm.getMainIdentifier(), lm.getModificationsItemsByHash()));
+					LOGGER.debug("Creating OBM group: " + lm.getMainIdentifier());
+					return obmDao.createGroup(new Group(lm.getMainIdentifier(), lm.getModificationsItemsByHash()));
 				case UPDATE_OBJECT:
-					LOGGER.debug("Getting OBM user for update: " + lm.getMainIdentifier());
-					User user = obmDao.getUser(lm.getMainIdentifier());
-					LOGGER.debug("Modifying OBM user: " + lm.getMainIdentifier() + " with: " + lm.getModificationsItemsByHash());
-					user.modify(lm.getModificationsItemsByHash());
-					return obmDao.modifyUser(user);
+					LOGGER.debug("Getting OBM group for update: " + lm.getMainIdentifier());
+					Group group = obmDao.getGroup(lm.getMainIdentifier());
+					LOGGER.debug("Modifying OBM group: " + lm.getMainIdentifier() + " with: " + lm.getModificationsItemsByHash());
+					group.modify(lm.getModificationsItemsByHash());
+					return obmDao.modifyGroup(group);
 				case DELETE_OBJECT:
-					LOGGER.debug("Deleting OBM user: " + lm.getMainIdentifier());
-					return obmDao.deleteUser(lm.getMainIdentifier());
+					LOGGER.debug("Deleting OBM group: " + lm.getMainIdentifier());
+					return obmDao.deleteGroup(lm.getMainIdentifier());
 				default:
 					LOGGER.error(String.format("Unknown operation %s", lm.getOperation()));
 					return false;

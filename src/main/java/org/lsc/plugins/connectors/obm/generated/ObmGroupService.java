@@ -32,8 +32,8 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-@XmlRootElement(name = "obmUserService", namespace = "http://lsc-project.org/XSD/lsc-obm-plugin-1.0")
-public class ObmUserService
+@XmlRootElement(name = "obmGroupService", namespace = "http://lsc-project.org/XSD/lsc-obm-plugin-1.0")
+public class ObmGroupService
     extends ObmService
 {
 

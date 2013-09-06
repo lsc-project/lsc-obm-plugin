@@ -132,8 +132,8 @@ public class ObmUserDstServiceTest {
 		try {
 			instance = new ObmUserDstService(task);
 			
-			String oldTelephoneValue = getBean(TEST_USER_ID).getDatasetFirstValueById("modile");
-			String newTelephoneValue = "+33 1 23 45 67 89";
+			String oldTelephoneValue = getBean(TEST_USER_ID).getDatasetFirstValueById("mobile");
+			String newTelephoneValue = oldTelephoneValue + " 42424242";
 			
 			boolean apply = instance.apply(mobileModification(newTelephoneValue));
 

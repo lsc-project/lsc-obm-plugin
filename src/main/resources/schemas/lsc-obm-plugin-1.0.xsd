@@ -7,12 +7,6 @@
 
 	<xsd:import namespace="http://lsc-project.org/XSD/lsc-core-2.0.xsd" schemaLocation="lsc-core-2.0.xsd" />
 
-	<xsd:complexType name="obmConnectionType">
-		<xsd:complexContent>
-			<xsd:extension base="lsc:connectionType" />
-		</xsd:complexContent>
-	</xsd:complexType>
-
 	<xsd:complexType name="obmService" abstract="true">
 		<xsd:complexContent>
 			<xsd:extension base="lsc:serviceType">
@@ -24,6 +18,14 @@
 	</xsd:complexType>
 
 	<xsd:element name="obmUserService">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="obmService" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="obmGroupService">
 		<xsd:complexType>
 			<xsd:complexContent>
 				<xsd:extension base="obmService" />

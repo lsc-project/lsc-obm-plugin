@@ -61,8 +61,9 @@ import javax.ws.rs.core.Response.Status;
 import org.glassfish.jersey.client.filter.HttpBasicAuthFilter;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.lsc.plugins.connectors.obm.beans.BatchId;
+import org.lsc.plugins.connectors.obm.beans.Group;
+import org.lsc.plugins.connectors.obm.beans.ListItem;
 import org.lsc.plugins.connectors.obm.beans.User;
-import org.lsc.plugins.connectors.obm.beans.UserListItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -122,10 +123,14 @@ public class ObmDao {
 		return target.request().get(User.class);
 	}
 	
-	public List<UserListItem> getUserList() throws ProcessingException, WebApplicationException {
-		WebTarget target = readOnlyClient.path("users");
-		LOGGER.debug("GETting user: " + target.getUri().toString());
-		return target.request().get(new GenericType<List<UserListItem>>(){});
+	public List<ListItem> getUserList() throws ProcessingException, WebApplicationException {
+		return getList("users");
+	}
+	
+	private List<ListItem> getList(String path) throws ProcessingException, WebApplicationException {
+		WebTarget target = readOnlyClient.path(path);
+		LOGGER.debug("GETting " + path + ":" + target.getUri().toString());
+		return target.request().get(new GenericType<List<ListItem>>(){});
 	}
 	
 	public boolean modifyUser(User user) throws ProcessingException {
@@ -178,4 +183,158 @@ public class ObmDao {
 			return false;
 		}
 	}
+
+	public List<ListItem> getGroupList() throws ProcessingException, WebApplicationException {
+		return getList("groups");
+	}
+	
+	public Group getGroup(String mainIdentifier) throws ProcessingException, WebApplicationException {
+		WebTarget target = readOnlyClient.path("groups").path(mainIdentifier).queryParam("expandDepth", "1");
+		LOGGER.debug("GETting group: " + target.getUri().toString());
+		return target.request().get(Group.class);
+	}
+
+	public boolean createGroup(Group group) throws ProcessingException {
+		WebTarget target = writeOnlyClient.path("groups");
+		LOGGER.debug("POSTing group: " + target.getUri().toString());
+		Response response = target.request().post(Entity.entity(group, MediaType.APPLICATION_JSON_TYPE));
+		response.close();
+		if (checkResponse(response)) {
+			LOGGER.debug("POST is successful");
+			return modifyGroupMembership(target.path(group.id), group);
+		} else {
+			LOGGER.error(String.format("Error %d (%s) while creating group: %s",
+					response.getStatus(),
+					response.getStatusInfo(),
+					target.getUri().toString()));
+			return false;
+		}
+	}
+
+	public boolean modifyGroup(Group group) throws ProcessingException {
+		WebTarget target = writeOnlyClient.path("groups").path(group.id);
+		LOGGER.debug("PUTting group: " + target.getUri().toString());
+		Response response = target.request().put(Entity.entity(group, MediaType.APPLICATION_JSON_TYPE));
+		response.close();
+		if (checkResponse(response)) {
+			LOGGER.debug("PUT is successful");
+			return modifyGroupMembership(target, group);
+		} else {
+			LOGGER.error(String.format("Error %d (%s) while modifying group: %s",
+					response.getStatus(),
+					response.getStatusInfo(),
+					target.getUri().toString()));
+			return false;
+		}
+	}
+
+	private boolean modifyGroupMembership(WebTarget groupTarget, Group group) {
+		for (String id: group.getUsersToAdd()) {
+			if (!addUserToGroup(groupTarget, id)) {
+				return false;
+			}
+		}
+		for (String id: group.getUsersToRemove()) {
+			if (!removeUserFromGroup(groupTarget, id)) {
+				return false;
+			}
+		}
+		for (String id: group.getGroupsToAdd()) {
+			if (!addSubGroupToGroup(groupTarget, id)) {
+				return false;
+			}
+		}
+		for (String id: group.getGroupsToRemove()) {
+			if (!removeSubGroupFromGroup(groupTarget, id)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean addUserToGroup(WebTarget groupTarget, String userId) {
+		WebTarget target = groupTarget.path("users").path(userId);
+		LOGGER.debug("PUTting user in group: " + target.getUri().toString());
+		Response response = target.request().put(Entity.json(""));
+		response.close();
+		if (checkResponse(response)) {
+			LOGGER.debug("PUT is successful");
+			return true;
+		} else {
+			LOGGER.error(String.format("Error %d (%s) while modifying group membership: %s",
+					response.getStatus(),
+					response.getStatusInfo(),
+					target.getUri().toString()));
+			return false;
+		}
+	}
+
+	private boolean removeUserFromGroup(WebTarget groupTarget, String userId) {
+		WebTarget target = groupTarget.path("users").path(userId);
+		LOGGER.debug("DELETing user in group: " + target.getUri().toString());
+		Response response = target.request().delete();
+		response.close();
+		if (checkResponse(response)) {
+			LOGGER.debug("DELETE is successful");
+			return true;
+		} else {
+			LOGGER.error(String.format("Error %d (%s) while modifying group membership: %s",
+					response.getStatus(),
+					response.getStatusInfo(),
+					target.getUri().toString()));
+			return false;
+		}
+	}
+
+	private boolean addSubGroupToGroup(WebTarget groupTarget, String subGroupId) {
+		WebTarget target = groupTarget.path("subgroups").path(subGroupId);
+		LOGGER.debug("PUTting group in group: " + target.getUri().toString());
+		Response response = target.request().put(Entity.json(""));
+		response.close();
+		if (checkResponse(response)) {
+			LOGGER.debug("PUT is successful");
+			return true;
+		} else {
+			LOGGER.error(String.format("Error %d (%s) while modifying group membership: %s",
+					response.getStatus(),
+					response.getStatusInfo(),
+					target.getUri().toString()));
+			return false;
+		}
+	}
+
+	private boolean removeSubGroupFromGroup(WebTarget groupTarget, String subGroupId) {
+		WebTarget target = groupTarget.path("subgroups").path(subGroupId);
+		LOGGER.debug("DELETing group in group: " + target.getUri().toString());
+		Response response = target.request().delete();
+		response.close();
+		if (checkResponse(response)) {
+			LOGGER.debug("DELETE is successful");
+			return true;
+		} else {
+			LOGGER.error(String.format("Error %d (%s) while modifying group membership: %s",
+					response.getStatus(),
+					response.getStatusInfo(),
+					target.getUri().toString()));
+			return false;
+		}
+	}
+
+	public boolean deleteGroup(String mainIdentifier) throws ProcessingException {
+		WebTarget target = writeOnlyClient.path("groups").path(mainIdentifier);
+		LOGGER.debug("DELETing group: " + target.getUri().toString());
+		Response response = target.request().delete();
+		response.close();
+		if (checkResponse(response)) {
+			LOGGER.debug("DELETE is successful");
+			return true;
+		} else {
+			LOGGER.error(String.format("Error %d (%s) while deleting group: %s",
+					response.getStatus(),
+					response.getStatusInfo(),
+					target.getUri().toString()));
+			return false;
+		}
+	}
+	
 }

@@ -54,7 +54,7 @@ import java.util.Map;
 import org.lsc.LscDatasets;
 
 
-public class User {
+public class User implements Identifiable {
 	public static final String DEFAULT_TIME =  "1970-01-01T00:00:00.000+0000";
 	
 	/* Mandatory */
@@ -183,5 +183,9 @@ public class User {
 				"kind", "title", "description", "company", "service", "direction", "addresses", "town",
 				"zipcode", "business_zipcode", "country", "phones", "mobile", "faxes", "mail_quota",
 				"mail_server", "mails");
+	}
+	
+	public String getId() {
+		return id;
 	}
 }

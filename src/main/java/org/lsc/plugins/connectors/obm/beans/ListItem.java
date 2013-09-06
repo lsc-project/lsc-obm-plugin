@@ -49,7 +49,7 @@ package org.lsc.plugins.connectors.obm.beans;
 import org.lsc.LscDatasets;
 
 
-public class UserListItem {
+public class ListItem {
 	public String id;
 	public String url;
 	
