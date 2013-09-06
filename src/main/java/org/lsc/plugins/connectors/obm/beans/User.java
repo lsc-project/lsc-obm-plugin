@@ -181,7 +181,7 @@ public class User implements Identifiable {
 		return Arrays.asList("id", "login", "lastname", "profile", "firstname", "commonname", "password",
 				"kind", "title", "description", "company", "service", "direction", "addresses", "town",
 				"zipcode", "business_zipcode", "country", "phones", "mobile", "faxes", "mail_quota",
-				"mail_server", "mails");
+				"mails");
 	}
 	
 	public String getId() {
