@@ -123,7 +123,6 @@ public class User implements Identifiable {
 		mail_quota = (!modificationsItems.containsKey("mail_quota")) ? mail_quota : modificationsItems.get("mail_quota").size() == 0 ? null : String.valueOf(modificationsItems.get("mail_quota").get(0)); 
 		mails = (!modificationsItems.containsKey("mails")) ? mails : toStringList(modificationsItems.get("mails")); 
 
-		mail_server = (!modificationsItems.containsKey("mail_server")) ? mail_server : modificationsItems.get("mail_server").size() == 0 ? null : String.valueOf(modificationsItems.get("mail_server").get(0));
 		timecreate = (timecreate != null) ? timecreate : DEFAULT_TIME;
 		timeupdate = (timeupdate != null) ? timeupdate : DEFAULT_TIME;
 }
