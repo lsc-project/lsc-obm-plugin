@@ -47,7 +47,6 @@
 package org.lsc.plugins.connectors.obm.beans;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -152,10 +151,6 @@ public class Group implements Identifiable {
 		return memberIds;
 	}
 	
-	public static List<String> getWritableAttributes() {
-		return Arrays.asList("id", "description", "name", "email", "users", "subgroups");
-	}
-
 	public String getId() {
 		return id;
 	}

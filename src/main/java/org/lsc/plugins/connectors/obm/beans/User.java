@@ -47,7 +47,6 @@
 package org.lsc.plugins.connectors.obm.beans;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -175,13 +174,6 @@ public class User implements Identifiable {
 		if (value != null) {
 			datasets.put(key, value);
 		}
-	}
-	
-	public static List<String> getWritableAttributes() {
-		return Arrays.asList("id", "login", "lastname", "profile", "firstname", "commonname", "password",
-				"kind", "title", "description", "company", "service", "direction", "addresses", "town",
-				"zipcode", "business_zipcode", "country", "phones", "mobile", "faxes", "mail_quota",
-				"mails");
 	}
 	
 	public String getId() {
