@@ -64,7 +64,6 @@ import org.lsc.exception.LscServiceConfigurationException;
 import org.lsc.exception.LscServiceException;
 import org.lsc.plugins.connectors.obm.beans.Group;
 import org.lsc.plugins.connectors.obm.beans.ListItem;
-import org.lsc.plugins.connectors.obm.beans.User;
 import org.lsc.plugins.connectors.obm.generated.ObmGroupService;
 import org.lsc.plugins.connectors.obm.generated.ObmService;
 import org.lsc.service.IWritableService;
@@ -223,6 +222,6 @@ public class ObmGroupDstService implements IWritableService {
 
 	@Override
 	public List<String> getWriteDatasetIds() {
-		return User.getWritableAttributes();
+		return Group.getWritableAttributes();
 	}
 }

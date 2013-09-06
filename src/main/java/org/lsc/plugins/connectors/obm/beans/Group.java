@@ -153,10 +153,7 @@ public class Group implements Identifiable {
 	}
 	
 	public static List<String> getWritableAttributes() {
-		return Arrays.asList("id", "login", "lastname", "profile", "firstname", "commonname", "password",
-				"kind", "title", "description", "company", "service", "direction", "addresses", "town",
-				"zipcode", "business_zipcode", "country", "phones", "mobile", "faxes", "mail_quota",
-				"mail_server", "mails");
+		return Arrays.asList("id", "description", "name", "email", "users", "subgroups");
 	}
 
 	public String getId() {
