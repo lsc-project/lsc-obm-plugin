@@ -12,6 +12,7 @@
 			<xsd:extension base="lsc:serviceType">
 				<xsd:sequence>
 					<xsd:element name="domainUUID" type="xsd:string" />
+					<xsd:element name="writableAttributes" type="lsc:valuesType" />
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

@@ -222,6 +222,6 @@ public class ObmUserDstService implements IWritableService {
 
 	@Override
 	public List<String> getWriteDatasetIds() {
-		return null;
+		return service.getWritableAttributes().getString();
 	}
 }
