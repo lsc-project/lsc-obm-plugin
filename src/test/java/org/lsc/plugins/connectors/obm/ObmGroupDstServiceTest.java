@@ -307,7 +307,7 @@ public class ObmGroupDstServiceTest {
 			IBean testGroupBean = getBean(newGroupId);
 			Assert.assertEquals(newGroupId, testGroupBean.getDatasetFirstValueById("id"));
 			
-			apply = instance.apply(deleteUser(newGroupId));
+			apply = instance.apply(deleteGroup(newGroupId));
 
 			Assert.assertTrue(apply);
 
@@ -338,7 +338,7 @@ public class ObmGroupDstServiceTest {
 		return lm;
 	}
 
-	private LscModifications deleteUser(String userId) {
+	private LscModifications deleteGroup(String userId) {
 		LscModifications lm = new LscModifications(LscModificationType.DELETE_OBJECT);
 		lm.setMainIdentifer(userId);
 		return lm;
@@ -368,7 +368,7 @@ public class ObmGroupDstServiceTest {
 			Assert.assertEquals(newGroupId, testGroupBean.getDatasetFirstValueById("id"));
 			Assert.assertEquals("b4daa82c-2530-30d6-bb59-95276e324fe7", testGroupBean.getDatasetFirstValueById("users"));
 			
-			apply = instance.apply(deleteUser(newGroupId));
+			apply = instance.apply(deleteGroup(newGroupId));
 
 			Assert.assertTrue(apply);
 
