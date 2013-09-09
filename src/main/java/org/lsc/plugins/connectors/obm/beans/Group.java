@@ -46,6 +46,8 @@
  */
 package org.lsc.plugins.connectors.obm.beans;
 
+import static org.lsc.plugins.connectors.obm.ModificationsItemsUtils.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -85,9 +87,9 @@ public class Group implements Identifiable {
 	}
 
 	public void modify(Map<String, List<Object>> modificationsItems) {
-		description = (!modificationsItems.containsKey("description")) ? description : modificationsItems.get("description").size() == 0 ? null : String.valueOf(modificationsItems.get("description").get(0)); 
-		name = (!modificationsItems.containsKey("name")) ? name : modificationsItems.get("name").size() == 0 ? null : String.valueOf(modificationsItems.get("name").get(0)); 
-		email = (!modificationsItems.containsKey("email")) ? email : modificationsItems.get("email").size() == 0 ? null : String.valueOf(modificationsItems.get("email").get(0));
+		description = getIfNotNull(modificationsItems, "description", description);
+		name = getIfNotNull(modificationsItems, "name", name);
+		email = getIfNotNull(modificationsItems, "email", email);
 		
 		if (modificationsItems.containsKey("users")) {
 			List<String> currentUsers = memberListToIdList(members.users);
@@ -108,14 +110,6 @@ public class Group implements Identifiable {
 		}
 	}
 
-	private List<String> toStringList(List<Object> uncastedValues) {
-		List<String> values = new ArrayList<String>(uncastedValues.size());
-		for (Object object: uncastedValues) {
-			values.add(String.valueOf(object));
-		}
-		return values;
-	}
-
 	public LscDatasets toDatasets() {
 		LscDatasets datasets = new LscDatasets();
 		
@@ -134,21 +128,6 @@ public class Group implements Identifiable {
 		}
 		
 		return datasets;
-	}
-	
-	private void putIfNotNull(LscDatasets datasets, String key, Object value) {
-		if (value != null) {
-			datasets.put(key, value);
-		}
-	}
-	
-	private List<String> memberListToIdList(List<? extends Identifiable> memberList) {
-		List<String> memberIds = new ArrayList<String>(memberList.size());
-		for (Identifiable member: memberList) {
-			String userId = String.valueOf(member.getId());
-			memberIds.add(userId);
-		}
-		return memberIds;
 	}
 	
 	public String getId() {

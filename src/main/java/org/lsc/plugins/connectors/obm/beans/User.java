@@ -46,7 +46,8 @@
  */
 package org.lsc.plugins.connectors.obm.beans;
 
-import java.util.ArrayList;
+import static org.lsc.plugins.connectors.obm.ModificationsItemsUtils.*;
+
 import java.util.List;
 import java.util.Map;
 
@@ -99,42 +100,34 @@ public class User implements Identifiable {
 	}
 
 	public void modify(Map<String, List<Object>> modificationsItems) {
-		login = (!modificationsItems.containsKey("login")) ? login : modificationsItems.get("login").size() == 0 ? null : String.valueOf(modificationsItems.get("login").get(0)); 
-		lastname = (!modificationsItems.containsKey("lastname")) ? lastname : modificationsItems.get("lastname").size() == 0 ? null : String.valueOf(modificationsItems.get("lastname").get(0)); 
-		profile = (!modificationsItems.containsKey("profile")) ? profile : modificationsItems.get("profile").size() == 0 ? null : String.valueOf(modificationsItems.get("profile").get(0)); 
+		login = getIfNotNull(modificationsItems, "login", login);
+		lastname = getIfNotNull(modificationsItems, "lastname", lastname); 
+		profile = getIfNotNull(modificationsItems, "profile", profile);
 		
-		firstname = (!modificationsItems.containsKey("firstname")) ? firstname : modificationsItems.get("firstname").size() == 0 ? null : String.valueOf(modificationsItems.get("firstname").get(0)); 
-		commonname = (!modificationsItems.containsKey("commonname")) ? commonname : modificationsItems.get("commonname").size() == 0 ? null : String.valueOf(modificationsItems.get("commonname").get(0)); 
-		password = (!modificationsItems.containsKey("password")) ? password : modificationsItems.get("password").size() == 0 ? null : String.valueOf(modificationsItems.get("password").get(0)); 
-		kind = (!modificationsItems.containsKey("kind")) ? kind : modificationsItems.get("kind").size() == 0 ? null : String.valueOf(modificationsItems.get("kind").get(0)); 
-		title = (!modificationsItems.containsKey("title")) ? title : modificationsItems.get("title").size() == 0 ? null : String.valueOf(modificationsItems.get("title").get(0)); 
-		description = (!modificationsItems.containsKey("description")) ? description : modificationsItems.get("description").size() == 0 ? null : String.valueOf(modificationsItems.get("description").get(0)); 
-		company = (!modificationsItems.containsKey("company")) ? company : modificationsItems.get("company").size() == 0 ? null : String.valueOf(modificationsItems.get("company").get(0)); 
-		service = (!modificationsItems.containsKey("service")) ? service : modificationsItems.get("service").size() == 0 ? null : String.valueOf(modificationsItems.get("service").get(0)); 
-		direction = (!modificationsItems.containsKey("direction")) ? direction : modificationsItems.get("direction").size() == 0 ? null : String.valueOf(modificationsItems.get("direction").get(0)); 
-		addresses = (!modificationsItems.containsKey("addresses")) ? addresses : toStringList(modificationsItems.get("addresses")); 
-		town = (!modificationsItems.containsKey("town")) ? town : modificationsItems.get("town").size() == 0 ? null : String.valueOf(modificationsItems.get("town").get(0)); 
-		zipcode = (!modificationsItems.containsKey("zipcode")) ? zipcode : modificationsItems.get("zipcode").size() == 0 ? null : String.valueOf(modificationsItems.get("zipcode").get(0)); 
-		business_zipcode = (!modificationsItems.containsKey("business_zipcode")) ? business_zipcode : modificationsItems.get("business_zipcode").size() == 0 ? null : String.valueOf(modificationsItems.get("business_zipcode").get(0)); 
-		country = (!modificationsItems.containsKey("country")) ? country : modificationsItems.get("country").size() == 0 ? null : String.valueOf(modificationsItems.get("country").get(0)); 
-		phones = (!modificationsItems.containsKey("phones")) ? phones : toStringList(modificationsItems.get("phones")); 
-		mobile = (!modificationsItems.containsKey("mobile")) ? mobile : modificationsItems.get("mobile").size() == 0 ? null : String.valueOf(modificationsItems.get("mobile").get(0)); 
-		faxes = (!modificationsItems.containsKey("faxes")) ? faxes : toStringList(modificationsItems.get("faxes")); 
-		mail_quota = (!modificationsItems.containsKey("mail_quota")) ? mail_quota : modificationsItems.get("mail_quota").size() == 0 ? null : String.valueOf(modificationsItems.get("mail_quota").get(0)); 
-		mails = (!modificationsItems.containsKey("mails")) ? mails : toStringList(modificationsItems.get("mails")); 
-		archived = (!modificationsItems.containsKey("archived")) ? archived : modificationsItems.get("archived").size() == 0 ? null : Boolean.valueOf(String.valueOf(modificationsItems.get("archived").get(0))); 
+		firstname = getIfNotNull(modificationsItems, "firstname", firstname);
+		commonname = getIfNotNull(modificationsItems, "commonname", commonname); 
+		password = getIfNotNull(modificationsItems, "password", password);
+		kind = getIfNotNull(modificationsItems, "kind", kind);
+		title = getIfNotNull(modificationsItems, "title", title);
+		description = getIfNotNull(modificationsItems, "description", description);
+		company = getIfNotNull(modificationsItems, "company", company);
+		service = getIfNotNull(modificationsItems, "service", service);
+		direction = getIfNotNull(modificationsItems, "direction", direction);
+		addresses = getIfNotNull(modificationsItems, "addresses", addresses);
+		town = getIfNotNull(modificationsItems, "town", town);
+		zipcode = getIfNotNull(modificationsItems, "zipcode", zipcode);
+		business_zipcode = getIfNotNull(modificationsItems, "business_zipcode", business_zipcode);
+		country = getIfNotNull(modificationsItems, "country", country);
+		phones = getIfNotNull(modificationsItems, "phones", phones);
+		mobile = getIfNotNull(modificationsItems, "mobile", mobile);
+		faxes = getIfNotNull(modificationsItems, "faxes", faxes);
+		mail_quota = getIfNotNull(modificationsItems, "mail_quota", mail_quota);
+		mails = getIfNotNull(modificationsItems, "mails", mails);
+		archived = getIfNotNull(modificationsItems, "archived", archived);
 
 		timecreate = (timecreate != null) ? timecreate : DEFAULT_TIME;
 		timeupdate = (timeupdate != null) ? timeupdate : DEFAULT_TIME;
 }
-
-	private List<String> toStringList(List<Object> uncastedValues) {
-		List<String> values = new ArrayList<String>(uncastedValues.size());
-		for (Object object: uncastedValues) {
-			values.add(String.valueOf(object));
-		}
-		return values;
-	}
 
 	public LscDatasets toDatasets() {
 		LscDatasets datasets = new LscDatasets();
@@ -171,12 +164,6 @@ public class User implements Identifiable {
 		putIfNotNull(datasets, "groups", groups);
 		
 		return datasets;
-	}
-	
-	private void putIfNotNull(LscDatasets datasets, String key, Object value) {
-		if (value != null) {
-			datasets.put(key, value);
-		}
 	}
 	
 	public String getId() {
