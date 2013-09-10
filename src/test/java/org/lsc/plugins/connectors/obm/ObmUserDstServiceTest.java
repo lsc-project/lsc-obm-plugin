@@ -70,7 +70,7 @@ public class ObmUserDstServiceTest {
 
 	    try {
 	        instance = new ObmUserDstService(task);
-	        ObmDao.close();
+	        ObmDao.close(task);
             LOGGER.info("Test successful !");
 	    } catch(LscServiceCommunicationException e) {
 	        LOGGER.info("OBM server unavailable. Test exited successfully !");
@@ -90,7 +90,7 @@ public class ObmUserDstServiceTest {
 	        Assert.assertNotNull(listPivots.get(TEST_USER_ID));
 	        Assert.assertEquals(TEST_USER_ID, listPivots.get(TEST_USER_ID).getStringValueAttribute("id"));
 	        
-	        ObmDao.close();
+	        ObmDao.close(task);
             
 	        LOGGER.info("Test successful !");
 	    } catch(LscServiceCommunicationException e) {
@@ -110,7 +110,7 @@ public class ObmUserDstServiceTest {
 	        Assert.assertNotNull(testUserBean);
 	        Assert.assertEquals(TEST_USER_ID, testUserBean.getDatasetFirstValueById("id"));
 	        
-	        ObmDao.close();
+	        ObmDao.close(task);
             
 	        LOGGER.info("Test successful !");
 	    } catch(LscServiceCommunicationException e) {
@@ -139,7 +139,7 @@ public class ObmUserDstServiceTest {
 
 			Assert.assertTrue(apply);
 
-			ObmDao.close();
+			ObmDao.close(task);
 			
 			System.out.println("Waiting 2s while batch is running...");
 			Thread.sleep(2000);
@@ -153,7 +153,7 @@ public class ObmUserDstServiceTest {
 
 			Assert.assertTrue(apply);
 
-			ObmDao.close();
+			ObmDao.close(task);
             
 	        LOGGER.info("Test successful !");
 	    } catch(LscServiceCommunicationException e) {
@@ -187,7 +187,7 @@ public class ObmUserDstServiceTest {
 
 			Assert.assertTrue(apply);
 
-			ObmDao.close();
+			ObmDao.close(task);
 			
 			System.out.println("Waiting 2s while batch is running...");
 			Thread.sleep(2000);
@@ -201,7 +201,7 @@ public class ObmUserDstServiceTest {
 
 			Assert.assertTrue(apply);
 
-			ObmDao.close();
+			ObmDao.close(task);
 			
 			System.out.println("Waiting 2s while batch is running...");
 			Thread.sleep(2000);

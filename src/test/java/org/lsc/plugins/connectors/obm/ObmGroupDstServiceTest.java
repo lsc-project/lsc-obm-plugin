@@ -72,7 +72,7 @@ public class ObmGroupDstServiceTest {
 
 	    try {
 	        instance = new ObmGroupDstService(task);
-	        ObmDao.close();
+	        ObmDao.close(task);
             LOGGER.info("Test successful !");
 	    } catch(LscServiceCommunicationException e) {
 	        LOGGER.info("OBM server unavailable. Test exited successfully !");
@@ -92,7 +92,7 @@ public class ObmGroupDstServiceTest {
 	        Assert.assertNotNull(listPivots.get(TEST_GROUP_ID));
 	        Assert.assertEquals(TEST_GROUP_ID, listPivots.get(TEST_GROUP_ID).getStringValueAttribute("id"));
 	        
-	        ObmDao.close();
+	        ObmDao.close(task);
             
 	        LOGGER.info("Test successful !");
 	    } catch(LscServiceCommunicationException e) {
@@ -116,7 +116,7 @@ public class ObmGroupDstServiceTest {
 	        Assert.assertEquals(1, testUserBean.getDatasetById("subgroups").size());
 	        Assert.assertEquals("1a3ea81d-1cfe-90d4-94ce-e447e2df33b4", testUserBean.getDatasetFirstValueById("subgroups"));
 	        
-	        ObmDao.close();
+	        ObmDao.close(task);
             
 	        LOGGER.info("Test successful !");
 	    } catch(LscServiceCommunicationException e) {
@@ -145,7 +145,7 @@ public class ObmGroupDstServiceTest {
 
 			Assert.assertTrue(apply);
 
-			ObmDao.close();
+			ObmDao.close(task);
 			
 			System.out.println("Waiting 2s while batch is running...");
 			Thread.sleep(2000);
@@ -159,7 +159,7 @@ public class ObmGroupDstServiceTest {
 
 			Assert.assertTrue(apply);
 
-			ObmDao.close();
+			ObmDao.close(task);
             
 	        LOGGER.info("Test successful !");
 	    } catch(LscServiceCommunicationException e) {
@@ -196,7 +196,7 @@ public class ObmGroupDstServiceTest {
 
 			Assert.assertTrue(apply);
 
-			ObmDao.close();
+			ObmDao.close(task);
 			
 			System.out.println("Waiting 2s while batch is running...");
 			Thread.sleep(2000);
@@ -210,7 +210,7 @@ public class ObmGroupDstServiceTest {
 
 			Assert.assertTrue(apply);
 
-			ObmDao.close();
+			ObmDao.close(task);
             
 			System.out.println("Waiting 2s while batch is running...");
 			Thread.sleep(2000);
@@ -254,7 +254,7 @@ public class ObmGroupDstServiceTest {
 
 			Assert.assertTrue(apply);
 
-			ObmDao.close();
+			ObmDao.close(task);
 			
 			System.out.println("Waiting 2s while batch is running...");
 			Thread.sleep(2000);
@@ -268,7 +268,7 @@ public class ObmGroupDstServiceTest {
 
 			Assert.assertTrue(apply);
 
-			ObmDao.close();
+			ObmDao.close(task);
             
 			System.out.println("Waiting 2s while batch is running...");
 			Thread.sleep(2000);
@@ -297,7 +297,7 @@ public class ObmGroupDstServiceTest {
 
 			Assert.assertTrue(apply);
 
-			ObmDao.close();
+			ObmDao.close(task);
 			
 			System.out.println("Waiting 2s while batch is running...");
 			Thread.sleep(2000);
@@ -311,7 +311,7 @@ public class ObmGroupDstServiceTest {
 
 			Assert.assertTrue(apply);
 
-			ObmDao.close();
+			ObmDao.close(task);
 			
 			System.out.println("Waiting 2s while batch is running...");
 			Thread.sleep(2000);
@@ -357,7 +357,7 @@ public class ObmGroupDstServiceTest {
 
 			Assert.assertTrue(apply);
 
-			ObmDao.close();
+			ObmDao.close(task);
 			
 			System.out.println("Waiting 2s while batch is running...");
 			Thread.sleep(2000);
@@ -372,7 +372,7 @@ public class ObmGroupDstServiceTest {
 
 			Assert.assertTrue(apply);
 
-			ObmDao.close();
+			ObmDao.close(task);
 			
 			System.out.println("Waiting 2s while batch is running...");
 			Thread.sleep(2000);

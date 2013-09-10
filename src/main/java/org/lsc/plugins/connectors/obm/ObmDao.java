@@ -46,7 +46,9 @@
  */
 package org.lsc.plugins.connectors.obm;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.WebApplicationException;
@@ -60,6 +62,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.glassfish.jersey.client.filter.HttpBasicAuthFilter;
 import org.glassfish.jersey.jackson.JacksonFeature;
+import org.lsc.configuration.TaskType;
 import org.lsc.plugins.connectors.obm.beans.BatchId;
 import org.lsc.plugins.connectors.obm.beans.Group;
 import org.lsc.plugins.connectors.obm.beans.ListItem;
@@ -76,9 +79,10 @@ public class ObmDao {
 	private WebTarget writeOnlyClient;
 	private WebTarget readOnlyClient;
 	
-	private static WebTarget batchPath;
+	private static Map<TaskType, WebTarget> batchPathes = new HashMap<TaskType, WebTarget>();
 
-	public ObmDao(String url, String domainUUID, String username, String password) {
+
+	public ObmDao(String url, String domainUUID, String username, String password, TaskType task) {
 		readOnlyClient = ClientBuilder.newClient()
 				.register(new HttpBasicAuthFilter(username, password))
 				.register(JacksonFeature.class)
@@ -91,7 +95,7 @@ public class ObmDao {
 		String batchId = createBatch(batchesPath);
 		
 		writeOnlyClient = batchesPath.path(batchId);
-		batchPath = writeOnlyClient;
+		batchPathes.put(task, writeOnlyClient);
 	}
 	
 	private String createBatch(WebTarget batchesPath) {
@@ -99,7 +103,12 @@ public class ObmDao {
 		return response.id;
 	}
 	
-	public static void close() {
+	public static void close(TaskType task) {
+		if (!batchPathes.containsKey(task)) {
+			LOGGER.error("No registered batch for the TaskType " + task.getName());
+			return;
+		}
+		WebTarget batchPath = batchPathes.get(task);
 		LOGGER.debug("Commiting batch on: " + batchPath.getUri().toString());
 		Response response = batchPath.request().put(Entity.json(""));
 		response.close();

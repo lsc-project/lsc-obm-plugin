@@ -99,7 +99,7 @@ public class ObmUserDstService implements IWritableService {
 			beanClass = (Class<IBean>) Class.forName(task.getBean());
 			connexion = (PluginConnectionType) service.getConnection().getReference();
 			
-			obmDao = new ObmDao(connexion.getUrl(), service.getDomainUUID(), connexion.getUsername(), connexion.getPassword());
+			obmDao = new ObmDao(connexion.getUrl(), service.getDomainUUID(), connexion.getUsername(), connexion.getPassword(), task);
 			
 			checkEndBatchHook(task);
 			
