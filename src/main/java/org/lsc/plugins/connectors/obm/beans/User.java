@@ -84,6 +84,7 @@ public class User implements Identifiable {
 	public String mail_quota = "0";
 	public List<String> mails;
 	public boolean archived;
+	public boolean hidden;
 	
 	/* Read only in OBM */
 	public String mail_server;
@@ -124,6 +125,7 @@ public class User implements Identifiable {
 		mail_quota = getIfNotNull(modificationsItems, "mail_quota", mail_quota);
 		mails = getIfNotNull(modificationsItems, "mails", mails);
 		archived = getIfNotNull(modificationsItems, "archived", archived);
+		hidden = getIfNotNull(modificationsItems, "hidden", hidden);
 
 		timecreate = (timecreate != null) ? timecreate : DEFAULT_TIME;
 		timeupdate = (timeupdate != null) ? timeupdate : DEFAULT_TIME;
@@ -157,6 +159,7 @@ public class User implements Identifiable {
 		putIfNotNull(datasets, "mail_quota", mail_quota);
 		putIfNotNull(datasets, "mails", mails);
 		putIfNotNull(datasets, "archived", Boolean.toString(archived));
+		putIfNotNull(datasets, "hidden", Boolean.toString(hidden));
 
 		putIfNotNull(datasets, "mail_server", mail_server);
 		putIfNotNull(datasets, "timecreate", timecreate);
