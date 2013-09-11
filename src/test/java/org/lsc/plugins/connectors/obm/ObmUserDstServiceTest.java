@@ -141,8 +141,8 @@ public class ObmUserDstServiceTest {
 
 			ObmDao.close(task);
 			
-			System.out.println("Waiting 2s while batch is running...");
-			Thread.sleep(2000);
+			System.out.println("Waiting 4s while batch is running...");
+			Thread.sleep(4000);
 			
 			instance = new ObmUserDstService(task);
 
@@ -225,8 +225,7 @@ public class ObmUserDstServiceTest {
 				addAttribute("password", "newPassword"),
 				addAttribute("lastname", "user"),
 				addAttribute("firstname", "new"),
-				addAttribute("profile", "user"),
-				addAttribute("country", "fr")
+				addAttribute("profile", "user")
 				);
 		lm.setLscAttributeModifications(attrsMod);
 		return lm;

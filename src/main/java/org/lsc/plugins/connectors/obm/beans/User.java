@@ -81,7 +81,7 @@ public class User implements Identifiable {
 	public List<String> phones;
 	public String mobile;
 	public List<String> faxes;
-	public String mail_quota = "0";
+	public String mail_quota;
 	public List<String> mails;
 	public boolean archived;
 	public boolean hidden;
