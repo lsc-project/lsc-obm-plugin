@@ -79,7 +79,7 @@ public class ObmDao {
 	private WebTarget writeOnlyClient;
 	private WebTarget readOnlyClient;
 	
-	private static Map<TaskType, WebTarget> batchPathes = new HashMap<TaskType, WebTarget>();
+	/*package-private*/ static Map<TaskType, WebTarget> batchPathes = new HashMap<TaskType, WebTarget>();
 
 
 	public ObmDao(String url, String domainUUID, String username, String password, TaskType task) {
