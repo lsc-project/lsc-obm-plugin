@@ -86,7 +86,8 @@ public class ObmUserDstService implements IWritableService {
 	/**
 	 * Create the service
 	 * @param task the task in which the source service settings will be used
-	 * @throws LscServiceConfigurationException never thrown
+	 * @throws LscServiceConfigurationException
+	 * @throws LscServiceCommunicationException
 	 */
 	@SuppressWarnings("unchecked")
 	public ObmUserDstService(final TaskType task) throws LscServiceConfigurationException, LscServiceCommunicationException {
