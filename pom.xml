@@ -4,7 +4,7 @@
 	<groupId>org.lsc.plugins.connectors</groupId>
 	<artifactId>obm</artifactId>
 	<name>Ldap Synchronization Connector OBM connector</name>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<description>
 	This project provides an OBM destination plugin for LSC
 	</description>
@@ -32,10 +32,6 @@
 		<license>
 			<name>BSD</name>
 			<url>http://www.opensource.org/licenses/bsd-license.php</url>
-		</license>
-		<license>
-			<name>Sun Binary License</name>
-			<url>See LICENSE.txt</url>
 		</license>
 	</licenses>
 
