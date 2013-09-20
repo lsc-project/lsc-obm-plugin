@@ -33,10 +33,6 @@
 			<name>BSD</name>
 			<url>http://www.opensource.org/licenses/bsd-license.php</url>
 		</license>
-		<license>
-			<name>Sun Binary License</name>
-			<url>See LICENSE.txt</url>
-		</license>
 	</licenses>
 
 	<scm>
