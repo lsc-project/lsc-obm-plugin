@@ -12,7 +12,7 @@
 # Variables
 #=================================================
 %define lsc_obm_name	lsc-obm-plugin
-%define lsc_obm_version	1.0
+%define lsc_obm_version	1.1
 %define lsc_min_version	2.0.3
 %define lsc_user        lsc
 %define lsc_group       lsc
@@ -71,5 +71,7 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Fri Oct 11 2013 - Clement Oudot <clem@lsc-project.org> - 1.1-0
+- Update to 1.1
 * Thu Sep 16 2013 - Clement Oudot <clem@lsc-project.org> - 1.0-0
 - First package for LSC OBM plugin
