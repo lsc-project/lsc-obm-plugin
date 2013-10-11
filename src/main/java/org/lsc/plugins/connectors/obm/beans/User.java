@@ -91,6 +91,7 @@ public class User implements Identifiable {
 	public String timecreate = DEFAULT_TIME;
 	public String timeupdate = DEFAULT_TIME;
 	public List<Object> groups;
+	public List<String> effectiveMails;
 	
 	
 	public User() {}
@@ -165,6 +166,7 @@ public class User implements Identifiable {
 		putIfNotNull(datasets, "timecreate", timecreate);
 		putIfNotNull(datasets, "timeupdate", timeupdate);
 		putIfNotNull(datasets, "groups", groups);
+		putIfNotNull(datasets, "effectiveMails", effectiveMails);
 		
 		return datasets;
 	}
