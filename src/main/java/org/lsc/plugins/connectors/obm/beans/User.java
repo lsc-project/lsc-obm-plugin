@@ -51,9 +51,11 @@ import static org.lsc.plugins.connectors.obm.ModificationsItemsUtils.*;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.lsc.LscDatasets;
 
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements Identifiable {
 	public static final String DEFAULT_TIME =  "1970-01-01T00:00:00.000+0000";
 	
