@@ -210,6 +210,73 @@ public class ObmUserDstServiceTest extends AbstractObmDstServiceTest {
 	}
 	
 	@Test
+	public void testModifyDelegation() throws Exception {
+		testAttributeMofication("delegation");
+	}
+
+	@Test
+	public void testModifyDelegationTarget() throws Exception {
+		testAttributeMofication("delegation_target");
+	}
+
+	@Test
+	public void testModifyNomadMail() throws Exception {
+		testAttributeMofication("nomad_mail");
+	}
+
+	@Test
+	public void testModifyHidden() throws Exception {
+		testBooleanAttributeMofication("hidden");
+	}
+
+	private void testBooleanAttributeMofication(String attributeId) throws Exception {
+		configuration();
+		
+		try {
+			instance = new ObmUserDstService(task);
+			
+			String oldValue = getBean(TEST_USER_ID).getDatasetFirstValueById(attributeId);
+			String newValue = oldValue.equals("true") ? "false" : "true";
+			
+			boolean apply = instance.apply(modification(attributeId, newValue));
+
+			Assert.assertTrue(apply);
+
+			EndAndWaitAndCheckBatchStatus();
+			
+			instance = new ObmUserDstService(task);
+
+			IBean testUserBean = getBean(TEST_USER_ID);
+			Assert.assertEquals(newValue, testUserBean.getDatasetFirstValueById(attributeId));
+			
+			apply = instance.apply(modification(attributeId, oldValue));
+
+			Assert.assertTrue(apply);
+
+			EndAndWaitAndCheckBatchStatus();
+            
+	        LOGGER.info("Test successful !");
+	    } catch(LscServiceCommunicationException e) {
+	        LOGGER.info("OBM server unavailable. Test exited successfully !");
+	    }
+	}
+	
+	@Test
+	public void testModifyNomadAllowed() throws Exception {
+		testBooleanAttributeMofication("nomad_allowed");
+	}
+
+	@Test
+	public void testModifyNomadEnabled() throws Exception {
+		testBooleanAttributeMofication("nomad_enabled");
+	}
+
+	@Test
+	public void testModifyNomadLocalCopy() throws Exception {
+		testBooleanAttributeMofication("nomad_local_copy");
+	}
+
+	@Test
 	public void testAddThenDelete() throws Exception {
 		configuration();
 		

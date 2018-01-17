@@ -87,6 +87,12 @@ public class User implements Identifiable {
 	public List<String> mails;
 	public boolean archived;
 	public boolean hidden;
+	public String delegation;
+	public String delegation_target;
+	public boolean nomad_allowed;
+	public boolean nomad_enabled;
+	public boolean nomad_local_copy;
+	public String nomad_mail;
 	
 	/* Read only in OBM */
 	public String mail_server;
@@ -129,6 +135,12 @@ public class User implements Identifiable {
 		mails = getIfNotNull(modificationsItems, "mails", mails);
 		archived = getIfNotNull(modificationsItems, "archived", archived);
 		hidden = getIfNotNull(modificationsItems, "hidden", hidden);
+		delegation = getIfNotNull(modificationsItems, "delegation", delegation);
+		delegation_target = getIfNotNull(modificationsItems, "delegation_target", delegation_target);
+		nomad_allowed = getIfNotNull(modificationsItems, "nomad_allowed", nomad_allowed);
+		nomad_enabled = getIfNotNull(modificationsItems, "nomad_enabled", nomad_enabled);
+		nomad_local_copy = getIfNotNull(modificationsItems, "nomad_local_copy", nomad_local_copy);
+		nomad_mail = getIfNotNull(modificationsItems, "nomad_mail", nomad_mail);
 
 		timecreate = (timecreate != null) ? timecreate : DEFAULT_TIME;
 		timeupdate = (timeupdate != null) ? timeupdate : DEFAULT_TIME;
@@ -163,6 +175,12 @@ public class User implements Identifiable {
 		putIfNotNull(datasets, "mails", mails);
 		putIfNotNull(datasets, "archived", Boolean.toString(archived));
 		putIfNotNull(datasets, "hidden", Boolean.toString(hidden));
+		putIfNotNull(datasets, "delegation", delegation);
+		putIfNotNull(datasets, "delegation_target", delegation_target);
+		putIfNotNull(datasets, "nomad_allowed", Boolean.toString(nomad_allowed));
+		putIfNotNull(datasets, "nomad_enabled", Boolean.toString(nomad_enabled));
+		putIfNotNull(datasets, "nomad_local_copy", Boolean.toString(nomad_local_copy));
+		putIfNotNull(datasets, "nomad_mail", nomad_mail);
 
 		putIfNotNull(datasets, "mail_server", mail_server);
 		putIfNotNull(datasets, "timecreate", timecreate);
