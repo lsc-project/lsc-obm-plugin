@@ -171,6 +171,12 @@
 			<version>2.1.0</version>
 			<type>jar</type>
 			<optional>false</optional>
+			<exclusions>
+				<exclusion>
+					<artifactId>google-collections</artifactId>
+					<groupId>com.google.collections</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
