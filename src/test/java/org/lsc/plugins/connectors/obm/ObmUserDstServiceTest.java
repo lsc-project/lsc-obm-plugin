@@ -165,16 +165,20 @@ public class ObmUserDstServiceTest extends AbstractObmDstServiceTest {
 	}
 	
 	@Test
-	public void testModify() throws Exception {
+	public void testModifyMobile() throws Exception {
+		testAttributeMofication("mobile");
+	}
+
+	private void testAttributeMofication(String attributeId) throws Exception {
 		configuration();
 		
 		try {
 			instance = new ObmUserDstService(task);
 			
-			String oldTelephoneValue = getBean(TEST_USER_ID).getDatasetFirstValueById("mobile");
-			String newTelephoneValue = oldTelephoneValue + " 42424242";
+			String oldValue = getBean(TEST_USER_ID).getDatasetFirstValueById(attributeId);
+			String newValue = oldValue + " 42424242";
 			
-			boolean apply = instance.apply(mobileModification(newTelephoneValue));
+			boolean apply = instance.apply(modification(attributeId, newValue));
 
 			Assert.assertTrue(apply);
 
@@ -183,9 +187,9 @@ public class ObmUserDstServiceTest extends AbstractObmDstServiceTest {
 			instance = new ObmUserDstService(task);
 
 			IBean testUserBean = getBean(TEST_USER_ID);
-			Assert.assertEquals(newTelephoneValue, testUserBean.getDatasetFirstValueById("mobile"));
+			Assert.assertEquals(newValue, testUserBean.getDatasetFirstValueById(attributeId));
 			
-			apply = instance.apply(mobileModification(oldTelephoneValue));
+			apply = instance.apply(modification(attributeId, oldValue));
 
 			Assert.assertTrue(apply);
 
@@ -197,10 +201,10 @@ public class ObmUserDstServiceTest extends AbstractObmDstServiceTest {
 	    }
 	}
 	
-	private LscModifications mobileModification(Object newMobileValue) {
+	private LscModifications modification(String attributeId, Object newValue) {
 		LscModifications lm = new LscModifications(LscModificationType.UPDATE_OBJECT);
 		lm.setMainIdentifer(TEST_USER_ID);
-		List<LscDatasetModification> attrsMod = Lists.newArrayList(addAttribute("mobile", newMobileValue));
+		List<LscDatasetModification> attrsMod = Lists.newArrayList(addAttribute(attributeId, newValue));
 		lm.setLscAttributeModifications(attrsMod);
 		return lm;
 	}
