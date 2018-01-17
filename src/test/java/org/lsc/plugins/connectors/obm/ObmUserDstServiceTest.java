@@ -76,7 +76,7 @@ public class ObmUserDstServiceTest extends AbstractObmDstServiceTest {
     
     private static transient Logger LOGGER = LoggerFactory.getLogger(ObmUserDstServiceTest.class);
     
-    private static final String TEST_USER_ID = "56d09e41-4131-7508-9b76-0facc8cf76a0";
+    private static final String TEST_USER_ID = "ba7bffaf-02ff-ab52-508f-2394c406c0a8";
     
 	private ObmUserDstService instance;
 	
@@ -87,11 +87,11 @@ public class ObmUserDstServiceTest extends AbstractObmDstServiceTest {
 	            @Injectable @NonStrict PluginConnectionType obmConnection;
 	            @Injectable @NonStrict Connection connection;
 	            {
-	                obmUserService.getDomainUUID(); result = "525ee17e-f0b5-2d71-4b36-639665540528";
+	                obmUserService.getDomainUUID(); result = "995c2df5-87e6-e4f2-0a3c-c9d6809e3b37";
 
-	                obmConnection.getUrl(); result = "http://10.69.0.254:8080/obm-sync";
-	                obmConnection.getUsername(); result = "ad.min@obm19.lyn.lng";
-	                obmConnection.getPassword() ; result = "secret";
+	                obmConnection.getUrl(); result = "http://debian7-obm3-1.local:8086/";
+	                obmConnection.getUsername(); result = "admin@debian7-obm3-1.local";
+	                obmConnection.getPassword() ; result = "admin";
 	                connection.getReference(); result = obmConnection;
 	                obmUserService.getConnection(); result = connection;
 	                task.getBean(); result = "org.lsc.beans.SimpleBean";
