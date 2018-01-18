@@ -78,7 +78,9 @@ public class ObmGroupDstServiceTest extends AbstractObmDstServiceTest {
     
     private static transient Logger LOGGER = LoggerFactory.getLogger(ObmGroupDstServiceTest.class);
     
-    private static final String TEST_GROUP_ID = "d7099646-40d9-0ff4-0878-ae1bae01e379";
+    private static final String TEST_GROUP_ID = "1fc198b0-d6c5-a415-2d5d-9c00487870cc";
+    private static final String TEST_USER_ID = "ba7bffaf-02ff-ab52-508f-2394c406c0a8";
+    private static final String TEST_SUBGROUP_ID = "5bcde52d-220f-be28-a6cd-40e42e50a89b";
     
 	private ObmGroupDstService instance;
 	
@@ -89,11 +91,11 @@ public class ObmGroupDstServiceTest extends AbstractObmDstServiceTest {
 	            @Injectable @NonStrict PluginConnectionType obmConnection;
 	            @Injectable @NonStrict Connection connection;
 	            {
-	            	obmGroupService.getDomainUUID(); result = "525ee17e-f0b5-2d71-4b36-639665540528";
+	                obmGroupService.getDomainUUID(); result = "995c2df5-87e6-e4f2-0a3c-c9d6809e3b37";
 
-	                obmConnection.getUrl(); result = "http://10.69.0.254:8080/obm-sync";
-	                obmConnection.getUsername(); result = "ad.min@obm19.lyn.lng";
-	                obmConnection.getPassword() ; result = "secret";
+	                obmConnection.getUrl(); result = "http://debian7-obm3-1.local:8086/";
+	                obmConnection.getUsername(); result = "admin@debian7-obm3-1.local";
+	                obmConnection.getPassword() ; result = "admin";
 	                connection.getReference(); result = obmConnection;
 	                obmGroupService.getConnection(); result = connection;
 	                task.getBean(); result = "org.lsc.beans.SimpleBean";
@@ -151,9 +153,9 @@ public class ObmGroupDstServiceTest extends AbstractObmDstServiceTest {
 	        Assert.assertNotNull(testUserBean);
 	        Assert.assertEquals(TEST_GROUP_ID, testUserBean.getDatasetFirstValueById("id"));
 	        Assert.assertEquals(1, testUserBean.getDatasetById("users").size());
-	        Assert.assertEquals("56d09e41-4131-7508-9b76-0facc8cf76a0", testUserBean.getDatasetFirstValueById("users"));
+	        Assert.assertEquals(TEST_USER_ID, testUserBean.getDatasetFirstValueById("users"));
 	        Assert.assertEquals(1, testUserBean.getDatasetById("subgroups").size());
-	        Assert.assertEquals("1a3ea81d-1cfe-90d4-94ce-e447e2df33b4", testUserBean.getDatasetFirstValueById("subgroups"));
+	        Assert.assertEquals(TEST_SUBGROUP_ID, testUserBean.getDatasetFirstValueById("subgroups"));
 	        
 	        EndAndWaitAndCheckBatchStatus();
             
@@ -221,7 +223,7 @@ public class ObmGroupDstServiceTest extends AbstractObmDstServiceTest {
 			Set<Object> oldMembers = getBean(TEST_GROUP_ID).getDatasetById("users");
 			
 			Set<Object> newMembers = new HashSet<Object>(oldMembers);
-			newMembers.add("b4daa82c-2530-30d6-bb59-95276e324fe7");
+			newMembers.add(TEST_USER_ID);
 			
 			boolean apply = instance.apply(memberModification("users", newMembers));
 
@@ -269,7 +271,7 @@ public class ObmGroupDstServiceTest extends AbstractObmDstServiceTest {
 			Set<Object> oldMembers = getBean(TEST_GROUP_ID).getDatasetById("subgroups");
 			
 			Set<Object> newMembers = new HashSet<Object>(oldMembers);
-			newMembers.add("3e96d0da-e578-1cb1-7b9e-4f6c8a763fba");
+			newMembers.add(TEST_SUBGROUP_ID);
 			
 			boolean apply = instance.apply(memberModification("subgroups", newMembers));
 
@@ -372,7 +374,7 @@ public class ObmGroupDstServiceTest extends AbstractObmDstServiceTest {
 
 			IBean testGroupBean = getBean(newGroupId);
 			Assert.assertEquals(newGroupId, testGroupBean.getDatasetFirstValueById("id"));
-			Assert.assertEquals("b4daa82c-2530-30d6-bb59-95276e324fe7", testGroupBean.getDatasetFirstValueById("users"));
+			Assert.assertEquals(TEST_USER_ID, testGroupBean.getDatasetFirstValueById("users"));
 			
 			apply = instance.apply(deleteGroup(newGroupId));
 
@@ -397,7 +399,7 @@ public class ObmGroupDstServiceTest extends AbstractObmDstServiceTest {
 		List<LscDatasetModification> attrsMod = Lists.newArrayList(
 				addAttribute("name", "newgroup"),
 				addAttribute("email", "newgroup"),
-				addAttribute("users", "b4daa82c-2530-30d6-bb59-95276e324fe7")
+				addAttribute("users", TEST_USER_ID)
 				);
 		lm.setLscAttributeModifications(attrsMod);
 		return lm;

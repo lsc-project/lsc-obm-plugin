@@ -76,7 +76,7 @@ public class ObmUserDstServiceTest extends AbstractObmDstServiceTest {
     
     private static transient Logger LOGGER = LoggerFactory.getLogger(ObmUserDstServiceTest.class);
     
-    private static final String TEST_USER_ID = "56d09e41-4131-7508-9b76-0facc8cf76a0";
+    private static final String TEST_USER_ID = "ba7bffaf-02ff-ab52-508f-2394c406c0a8";
     
 	private ObmUserDstService instance;
 	
@@ -87,11 +87,11 @@ public class ObmUserDstServiceTest extends AbstractObmDstServiceTest {
 	            @Injectable @NonStrict PluginConnectionType obmConnection;
 	            @Injectable @NonStrict Connection connection;
 	            {
-	                obmUserService.getDomainUUID(); result = "525ee17e-f0b5-2d71-4b36-639665540528";
+	                obmUserService.getDomainUUID(); result = "995c2df5-87e6-e4f2-0a3c-c9d6809e3b37";
 
-	                obmConnection.getUrl(); result = "http://10.69.0.254:8080/obm-sync";
-	                obmConnection.getUsername(); result = "ad.min@obm19.lyn.lng";
-	                obmConnection.getPassword() ; result = "secret";
+	                obmConnection.getUrl(); result = "http://debian7-obm3-1.local:8086/";
+	                obmConnection.getUsername(); result = "admin@debian7-obm3-1.local";
+	                obmConnection.getPassword() ; result = "admin";
 	                connection.getReference(); result = obmConnection;
 	                obmUserService.getConnection(); result = connection;
 	                task.getBean(); result = "org.lsc.beans.SimpleBean";
@@ -165,16 +165,20 @@ public class ObmUserDstServiceTest extends AbstractObmDstServiceTest {
 	}
 	
 	@Test
-	public void testModify() throws Exception {
+	public void testModifyMobile() throws Exception {
+		testAttributeMofication("mobile");
+	}
+
+	private void testAttributeMofication(String attributeId) throws Exception {
 		configuration();
 		
 		try {
 			instance = new ObmUserDstService(task);
 			
-			String oldTelephoneValue = getBean(TEST_USER_ID).getDatasetFirstValueById("mobile");
-			String newTelephoneValue = oldTelephoneValue + " 42424242";
+			String oldValue = getBean(TEST_USER_ID).getDatasetFirstValueById(attributeId);
+			String newValue = oldValue + " 42424242";
 			
-			boolean apply = instance.apply(mobileModification(newTelephoneValue));
+			boolean apply = instance.apply(modification(attributeId, newValue));
 
 			Assert.assertTrue(apply);
 
@@ -183,9 +187,9 @@ public class ObmUserDstServiceTest extends AbstractObmDstServiceTest {
 			instance = new ObmUserDstService(task);
 
 			IBean testUserBean = getBean(TEST_USER_ID);
-			Assert.assertEquals(newTelephoneValue, testUserBean.getDatasetFirstValueById("mobile"));
+			Assert.assertEquals(newValue, testUserBean.getDatasetFirstValueById(attributeId));
 			
-			apply = instance.apply(mobileModification(oldTelephoneValue));
+			apply = instance.apply(modification(attributeId, oldValue));
 
 			Assert.assertTrue(apply);
 
@@ -197,14 +201,81 @@ public class ObmUserDstServiceTest extends AbstractObmDstServiceTest {
 	    }
 	}
 	
-	private LscModifications mobileModification(Object newMobileValue) {
+	private LscModifications modification(String attributeId, Object newValue) {
 		LscModifications lm = new LscModifications(LscModificationType.UPDATE_OBJECT);
 		lm.setMainIdentifer(TEST_USER_ID);
-		List<LscDatasetModification> attrsMod = Lists.newArrayList(addAttribute("mobile", newMobileValue));
+		List<LscDatasetModification> attrsMod = Lists.newArrayList(addAttribute(attributeId, newValue));
 		lm.setLscAttributeModifications(attrsMod);
 		return lm;
 	}
 	
+	@Test
+	public void testModifyDelegation() throws Exception {
+		testAttributeMofication("delegation");
+	}
+
+	@Test
+	public void testModifyDelegationTarget() throws Exception {
+		testAttributeMofication("delegation_target");
+	}
+
+	@Test
+	public void testModifyNomadMail() throws Exception {
+		testAttributeMofication("nomad_mail");
+	}
+
+	@Test
+	public void testModifyHidden() throws Exception {
+		testBooleanAttributeMofication("hidden");
+	}
+
+	private void testBooleanAttributeMofication(String attributeId) throws Exception {
+		configuration();
+		
+		try {
+			instance = new ObmUserDstService(task);
+			
+			String oldValue = getBean(TEST_USER_ID).getDatasetFirstValueById(attributeId);
+			String newValue = oldValue.equals("true") ? "false" : "true";
+			
+			boolean apply = instance.apply(modification(attributeId, newValue));
+
+			Assert.assertTrue(apply);
+
+			EndAndWaitAndCheckBatchStatus();
+			
+			instance = new ObmUserDstService(task);
+
+			IBean testUserBean = getBean(TEST_USER_ID);
+			Assert.assertEquals(newValue, testUserBean.getDatasetFirstValueById(attributeId));
+			
+			apply = instance.apply(modification(attributeId, oldValue));
+
+			Assert.assertTrue(apply);
+
+			EndAndWaitAndCheckBatchStatus();
+            
+	        LOGGER.info("Test successful !");
+	    } catch(LscServiceCommunicationException e) {
+	        LOGGER.info("OBM server unavailable. Test exited successfully !");
+	    }
+	}
+	
+	@Test
+	public void testModifyNomadAllowed() throws Exception {
+		testBooleanAttributeMofication("nomad_allowed");
+	}
+
+	@Test
+	public void testModifyNomadEnabled() throws Exception {
+		testBooleanAttributeMofication("nomad_enabled");
+	}
+
+	@Test
+	public void testModifyNomadLocalCopy() throws Exception {
+		testBooleanAttributeMofication("nomad_local_copy");
+	}
+
 	@Test
 	public void testAddThenDelete() throws Exception {
 		configuration();

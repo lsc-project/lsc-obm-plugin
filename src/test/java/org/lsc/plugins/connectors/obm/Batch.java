@@ -56,10 +56,14 @@ public class Batch {
 	public List<Object> operations;
 	
 	public boolean isFinished() {
-		return status.equals("DONE") || status.equals("ERROR");
+		return isSuccess() || status.equals("ERROR");
 	}
 	
 	public boolean isOk() {
-		return status.equals("DONE") && operationCount == operationDone;
+		return isSuccess() && operationCount == operationDone;
+	}
+
+	private boolean isSuccess() {
+		return status.equals("DONE") || status.equals("SUCCESS");
 	}
 }

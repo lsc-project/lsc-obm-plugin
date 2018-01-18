@@ -12,7 +12,7 @@
 # Variables
 #=================================================
 %define lsc_obm_name	lsc-obm-plugin
-%define lsc_obm_version	1.3
+%define lsc_obm_version	1.4
 %define lsc_min_version	2.1.0
 %define lsc_user        lsc
 %define lsc_group       lsc
@@ -71,6 +71,8 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Wed Jan 17 2018 - Raphael Ouazana <rouazana@linagora.com> - 1.4-0
+- Update to 1.4
 * Wed Mar 5 2015 - Clement Oudot <clem@lsc-project.org> - 1.3-0
 - Update to 1.3
 * Thu Mar 6 2014 - Clement Oudot <clem@lsc-project.org> - 1.2-0
