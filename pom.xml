@@ -4,7 +4,7 @@
 	<groupId>org.lsc.plugins.connectors</groupId>
 	<artifactId>obm</artifactId>
 	<name>LDAP Synchronization Connector OBM plugin</name>
-	<version>1.4</version>
+	<version>1.5</version>
 	<description>
 	This project provides an OBM destination plugin for LSC
 	</description>
