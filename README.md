@@ -117,7 +117,7 @@ For groups:
 This service needs the following parameters:
 
 * domainUUID: Identifier of the domain. You can list the available domains on `http://OBM_SYNC_IP:OBM_SYNC_PORT/obm-sync/provisioning/v1/domains/`
-* writableAttributes: list of attributes to manage trough this connector. Refer to OBM provisioning documentation to get the complete list ([user API](https://obm.org/wiki/provisioning-user-api) | [group API](http://obm.org/wiki/provisioning-group-api) ).
+* writableAttributes: list of attributes to manage trough this connector. Refer to OBM provisioning documentation to get the complete list ([user API](https://obm.org/wiki/provisioning-user-api) | [group API](https://obm.org/wiki/provisioning-group-api) ).
 
 Main Identifier
 ------------------
