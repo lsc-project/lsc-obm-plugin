@@ -10,7 +10,7 @@ Presentation
 
 [OBM](https://www.obm.org) is a free messaging and collaboration platform useful for just a couple to many thousands of users with strong support for mobile device.
 
-Since version 2.6, OBM provides a REST API to manage users and groups: [http://obm.org/wiki/obm-provisioning-api](https://obm.org/wiki/obm-provisioning-api)
+Since version 2.6, OBM provides a REST API to manage users and groups: [https://obm.org/wiki/obm-provisioning-api](https://obm.org/wiki/obm-provisioning-api)
 
 This LSC plugin uses this API in destination, so you can synchronize users and groups from a LDAP directory, a database or any other LSC source.
 
