@@ -5,12 +5,12 @@
 > **_NOTE:_** Minimal plugin version: 1.2, Minimal required LSC version: 2.1
 
 Presentation
-==================
+============
 
 
 [OBM](https://www.obm.org) is a free messaging and collaboration platform useful for just a couple to many thousands of users with strong support for mobile device.
 
-Since version 2.6, OBM provides a REST API to manage users and groups: [http://obm.org/wiki/obm-provisioning-api](http://obm.org/wiki/obm-provisioning-api)
+Since version 2.6, OBM provides a REST API to manage users and groups: [http://obm.org/wiki/obm-provisioning-api](https://obm.org/wiki/obm-provisioning-api)
 
 This LSC plugin uses this API in destination, so you can synchronize users and groups from a LDAP directory, a database or any other LSC source.
 
@@ -117,7 +117,7 @@ For groups:
 This service needs the following parameters:
 
 * domainUUID: Identifier of the domain. You can list the available domains on `http://OBM_SYNC_IP:OBM_SYNC_PORT/obm-sync/provisioning/v1/domains/`
-* writableAttributes: list of attributes to manage trough this connector. Refer to OBM provisioning documentation to get the complete list ([user API](http://obm.org/wiki/provisioning-user-api) | [group API](http://obm.org/wiki/provisioning-group-api|group API)).
+* writableAttributes: list of attributes to manage trough this connector. Refer to OBM provisioning documentation to get the complete list ([user API](https://obm.org/wiki/provisioning-user-api) | [group API](http://obm.org/wiki/provisioning-group-api) ).
 
 Main Identifier
 ------------------
